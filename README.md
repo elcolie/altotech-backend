@@ -29,6 +29,7 @@ Use Django custom command to fill the Power Meter (kW) in TimescaleDB
 # 2. Django-python
 http://localhost:8000/api/hotels/ List and SearchFilter
 http://localhost:8000/api/hotels/26/floors/ Access floors in a hotel
+http://localhost:8000/api/floors/26/rooms/ List room on a floor
 
 # TODO
 - docker compose bring project in one line.

@@ -26,5 +26,8 @@ Use Django custom command to fill the Power Meter (kW) in TimescaleDB
 1. `source export.sh` with supabase database url to open for connection and store latest sensor readings
 1. `raw_data` table has `db_index=True` for efficient querying.
 
+# 2. Django-python
+http://localhost:8000/api/hotels/ List and SearchFilter
+
 # TODO
 - docker compose bring project in one line.

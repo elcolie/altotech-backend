@@ -5,7 +5,7 @@ from django.urls import path, include
 
 from hotels.api.viewsets import HotelViewSets
 from hotels.api.viewsets import FloorViewSet, RoomViewSet
-from raw_data.api.viewsets import IoTViewSets, LifeBeingViewSets, IAQViewSets
+from raw_data.api.viewsets import IoTViewSets, LifeBeingViewSets, IAQViewSets, energy_summary
 
 router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 
@@ -19,4 +19,5 @@ urlpatterns = [
     path("rooms/<int:room_id>/data/", IoTViewSets.as_view({"get": "list"}), name="room-iot-list"),
     path("rooms/<int:room_id>/data/life_being/", LifeBeingViewSets.as_view({"get": "list"}), name="room-iot-list"),
     path("rooms/<int:room_id>/data/iaq/", IAQViewSets.as_view({"get": "list"}), name="room-iot-list"),
+    path("hotels/<int:hotel_id>/energy_summary/", energy_summary, name="energy-summary"),
 ]

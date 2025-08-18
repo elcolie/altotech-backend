@@ -18,11 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 
-from hotels.api.viewsets import FloorViewSet, RoomViewSet
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('smart_building.api_router')),
-    path('api/hotels/<int:hotel_id>/floors/', FloorViewSet.as_view({'get': 'list'}), name='hotel-floors-list'),
-    path('api/floors/<int:floor_id>/rooms/', RoomViewSet.as_view({'get': 'list'}), name='floor-rooms-list'),
 ]

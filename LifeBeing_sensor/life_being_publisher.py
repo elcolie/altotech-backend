@@ -58,7 +58,7 @@ try:
             # Extract data from CSV row (no header, so use indices)
             data = {
                 "datetime": row[0],
-                "room": "Room101",
+                "room": "101",
                 "online_status": row[1],
                 "sensitivity": sensitivity_value,
                 "presence_state": row[3]
@@ -70,7 +70,7 @@ try:
                 MessageBody=json.dumps(data, indent=2),
                 MessageAttributes={
                     'room': {
-                        'StringValue': 'Room101',
+                        'StringValue': '101',
                         'DataType': 'String'
                     },
                     'sensor_type': {

@@ -46,7 +46,7 @@ try:
             # Extract data from CSV row
             data = {
                 "datetime": row['datetime'],
-                "room": "Room101",
+                "room": "101",
                 "co2": float(row['co2']),
                 "humidity": float(row['humidity']),
                 "temperature": float(row['temperature'])

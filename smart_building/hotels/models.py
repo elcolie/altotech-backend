@@ -24,6 +24,8 @@ class Room(models.Model):
     floor = models.ForeignKey(HotelFloor, on_delete=models.CASCADE, related_name='rooms')
     room_number = models.IntegerField()
     room_name = models.CharField(max_length=255, null=True, blank=True)
+    iaq_sensor = models.CharField(max_length=255, null=True, blank=True)
+    life_being_sensor = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.hotel.name} | {self.floor.floor_number} | {self.room_number}"

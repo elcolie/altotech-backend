@@ -22,5 +22,9 @@ Run into SNS error then use direct SQS to bypass the problem.
 Use Django custom command to fill the Power Meter (kW) in TimescaleDB
 `python manage.py prepare_timeseries_data`
 
+# Realtime database:
+1. `source export.sh` with supabase database url to open for connection and store latest sensor readings
+1. `raw_data` table has `db_index=True` for efficient querying.
+
 # TODO
 - docker compose bring project in one line.

@@ -2,3 +2,4 @@ ses-smtp-user.20170822-000439_accessKeys.csv
 export.sh
 .idea
 .python-version
+*.pyc

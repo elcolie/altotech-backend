@@ -1,3 +1,7 @@
+# Note
+Postgres is TimescaleDB in docker container
+`esb_subscriber.py` is in the same folder of `manage.py`
+
 # IAQ_sensor/iaq_publisher.py
 1. Run `source export.sh` to export the AWS credential
 2. Run the `iaq_publisher.py` to publish the message
@@ -9,6 +13,10 @@ Run into SNS error then use direct SQS to bypass the problem.
 1. Run [life_being_publisher.py](LifeBeing_sensor/life_being_publisher.py) to publish the message
 2. Run [life_being_subscriber.py](LifeBeing_sensor/life_being_subscriber.py) to subscribe the message
 
+# Run Event Streaming Bus
+1. cd to same folder of `manage.py`
+2. python `esb_subscriber.py`
+3. Observe the Django `raw_data` table
 
 # TODO
 - docker compose bring project in one line.

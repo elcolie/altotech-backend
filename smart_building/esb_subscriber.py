@@ -2,6 +2,22 @@ import threading
 import boto3
 import json
 import time
+import os
+import django
+from datetime import datetime
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'smart_building.settings')
+django.setup()
+from raw_data.models import RawData
+
+def save_raw_data(timestamp, dt, device_id, datapoint, value):
+    RawData.objects.create(
+        timestamp=timestamp,
+        datetime=dt,
+        device_id=device_id,
+        datapoint=datapoint,
+        value=str(value)
+    )
 
 def iaq_subscriber():
     sqs = boto3.client('sqs', region_name='ap-southeast-1')
@@ -72,12 +88,24 @@ def iaq_subscriber():
             MaxNumberOfMessages=1,
             WaitTimeSeconds=20
         )
-
         if 'Messages' in messages:
             for msg in messages['Messages']:
                 body = json.loads(msg['Body'])
-                print(f"Received message: {body['Message']}")
-                # Delete message from queue after processing
+                try:
+                    data = json.loads(body['Message']) if isinstance(body['Message'], str) else body['Message']
+                    device_id = data.get('room', 'unknown')
+                    for key in ['co2', 'humidity', 'temperature']:
+                        if key in data:
+                            save_raw_data(
+                                timestamp=int(time.mktime(datetime.strptime(data['datetime'], "%Y-%m-%d %H:%M:%S.%f").timetuple())),
+                                dt=datetime.strptime(data['datetime'], "%Y-%m-%d %H:%M:%S.%f"),
+                                device_id=device_id,
+                                datapoint=key,
+                                value=data[key]
+                            )
+                    print(f"[IAQ] Saved data for device {device_id} at {data['datetime']}")
+                except Exception as e:
+                    print(f"[IAQ] Error saving data: {e}")
                 sqs.delete_message(
                     QueueUrl=queue_url,
                     ReceiptHandle=msg['ReceiptHandle']
@@ -109,20 +137,24 @@ def life_being_subscriber():
                 for msg in messages['Messages']:
                     try:
                         if 'Body' in msg:
-                            message_data = json.loads(msg['Body'])
-                            print(f"[LifeBeing] --- Received LifeBeing Sensor Data ---")
-                            print(f"[LifeBeing] Datetime: {message_data.get('datetime', 'N/A')}")
-                            print(f"[LifeBeing] Room: {message_data.get('room', 'N/A')}")
-                            print(f"[LifeBeing] Online Status: {message_data.get('online_status', 'N/A')}")
-                            print(f"[LifeBeing] Sensitivity: {message_data.get('sensitivity', 'N/A')}")
-                            print(f"[LifeBeing] Presence State: {message_data.get('presence_state', 'N/A')}")
-                            print(f"[LifeBeing] ----------------------------------------")
+                            data = json.loads(msg['Body'])
+                            device_id = data.get('room', 'unknown')
+                            for key in ['online_status', 'sensitivity', 'presence_state']:
+                                if key in data:
+                                    save_raw_data(
+                                        timestamp=int(time.mktime(datetime.strptime(data['datetime'], "%Y-%m-%d %H:%M:%S.%f").timetuple())),
+                                        dt=datetime.strptime(data['datetime'], "%Y-%m-%d %H:%M:%S.%f"),
+                                        device_id=device_id,
+                                        datapoint=key,
+                                        value=data[key]
+                                    )
+                            print(f"[LifeBeing] Saved data for device {device_id} at {data['datetime']}")
                         sqs.delete_message(
                             QueueUrl=queue_url,
                             ReceiptHandle=msg['ReceiptHandle']
                         )
                     except Exception as e:
-                        print(f"[LifeBeing] Error processing message: {e}")
+                        print(f"[LifeBeing] Error saving data: {e}")
             else:
                 print("[LifeBeing] No messages received. Polling again...")
         except KeyboardInterrupt:
@@ -139,4 +171,3 @@ if __name__ == "__main__":
     t2.start()
     t1.join()
     t2.join()
-

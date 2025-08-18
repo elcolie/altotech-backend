@@ -18,5 +18,9 @@ Run into SNS error then use direct SQS to bypass the problem.
 2. python `esb_subscriber.py`
 3. Observe the Django `raw_data` table
 
+# Prepare Timeseries Database
+Use Django custom command to fill the Power Meter (kW) in TimescaleDB
+`python manage.py prepare_timeseries_data`
+
 # TODO
 - docker compose bring project in one line.

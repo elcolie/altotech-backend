@@ -33,7 +33,13 @@ http://localhost:8000/api/floors/26/rooms/ List room on a floor
 http://localhost:8000/api/rooms/101/data/ Latest IoT data of a room 101
 http://localhost:8000/api/rooms/101/data/life_being  Latest Life Being sensor
 http://localhost:8000/api/rooms/101/data/iaq/  Latest IAQ sensor
-http://localhost:8000/api/hotels/1/energy_summary/?resolution=1day&subsystem=lighting&start_time=2024-03-01T00:00:00&end_time=2025-08-10T23:59:59&format1=csv  Returns CSV
+http://localhost:8000/api/hotels/1/energy_summary/?resolution=1day&subsystem=lighting&start_time=2024-03-01T00:00:00&end_time=2025-08-10T23:59:59&format1=csv  Returns CSV. It haven't finished yet.
+
+
+# claude_mcp
+It must a new project `pyenv` is messed up with `uv`.
+`/Users/sarit/learn_mcp/altotech_smart_building/altotech_smart_building`
 
 # TODO
 - docker compose bring project in one line.
+

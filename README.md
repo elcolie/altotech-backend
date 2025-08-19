@@ -50,3 +50,6 @@ https://github.com/elcolie/altotech-mcp-demo
 # To generate database diagram.
 1. `python manage.py graph_models -a -o my_diagram.dot`
 1. `dot -Tpng my_diagram.dot -o my_diagram.png`
+
+# Demo
+https://youtu.be/f6ee5cMNcSA

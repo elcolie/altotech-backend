@@ -15,8 +15,11 @@ botocore==1.40.11
 django==5.2.5
     # via
     #   -r requirements.in
+    #   django-extensions
     #   django-filter
     #   djangorestframework
+django-extensions==4.1
+    # via -r requirements.in
 django-filter==25.1
     # via -r requirements.in
 djangorestframework==3.16.1

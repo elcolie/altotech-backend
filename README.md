@@ -46,3 +46,7 @@ https://github.com/elcolie/altotech-mcp-demo
 - `docker compose -f docker-compose.local.yml build`
 - `docker compose -f docker-compose.local.yml build up`.
 - Continue on https://github.com/elcolie/altotech-backend for MCP and Chat Interface.
+
+# To generate database diagram.
+1. `python manage.py graph_models -a -o my_diagram.dot`
+1. `dot -Tpng my_diagram.dot -o my_diagram.png`

@@ -1,0 +1,30 @@
+https://sequencediagram.org/
+```
+title Sensor to ESB
+
+IAQ-Sensor->AmazonSNS/SQS:publish
+AmazonSNS/SQS->ESB:Send
+
+LifeBeing-Sensor->AmazonSNS/SQS:publish
+AmazonSNS/SQS->ESB:Send
+```
+```
+title ESB to TimescaleDB
+
+iaq_subscriber->AmazonSNS/SQS:subscribe
+AmazonSNS/SQS->TimescaleDB:send
+lifebeing_subscriber->AmazonSNS/SQS:subscribe
+AmazonSNS/SQS->TimescaleDB:send
+```
+
+```
+title Claude Desktop connect Django
+
+claude->Django: API calls
+Django->TimescaleDB: query
+TimescaleDB->Django: process
+Django->claude: response
+```
+
+https://lucid.app/lucidchart/77762ee3-4463-4c77-ba82-353f8e867c57/edit?invitationId=inv_156f515d-df4e-4b89-bef1-d51a3dd8eb52&page=0_0
+

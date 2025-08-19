@@ -16,6 +16,9 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Check if running in Docker
+USE_DOCKER = os.environ.get('USE_DOCKER', 'no') == 'yes'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -26,7 +29,7 @@ SECRET_KEY = 'django-insecure-*_up9qf^mxdvff#sm=smp19570*@-lhk*v)cf65#inlp%#w)*4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0'] if USE_DOCKER else []
 
 
 # Application definition

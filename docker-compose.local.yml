@@ -11,9 +11,78 @@ services:
     image: smart_building_production_postgres
     container_name: smart_building_local_postgres
     volumes:
-      - smart_building_local_postgres_data:/var/lib/postgresql/data
+#      - smart_building_local_postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data  # Physical volume mount
       - smart_building_local_postgres_data_backups:/backups
     ports:
       - "5432:5432"
     env_file:
       - ./.envs/.local/.postgres
+
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: smart_building_local_django
+    container_name: smart_building_local_django
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z  # Mount entire project directory
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    command: /start
+
+  iaq_publisher:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: smart_building_local_django
+    container_name: smart_building_iaq_publisher
+    volumes:
+      - .:/app:z
+    working_dir: /app/IAQ_sensor
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+      - ./.envs/.local/.aws
+    command: python iaq_publisher.py
+    restart: unless-stopped
+
+  lifebeing_publisher:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: smart_building_local_django
+    container_name: smart_building_lifebeing_publisher
+    volumes:
+      - .:/app:z
+    working_dir: /app/LifeBeing_sensor
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+      - ./.envs/.local/.aws
+    command: python life_being_publisher.py
+    restart: unless-stopped
+
+  esb_subscriber:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: smart_building_local_django
+    container_name: smart_building_esb_subscriber
+    depends_on:
+      - postgres
+      - django
+    volumes:
+      - .:/app:z
+    working_dir: /app/smart_building
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+      - ./.envs/.local/.aws
+    command: python esb_subscriber.py
+    restart: unless-stopped

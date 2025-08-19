@@ -40,6 +40,9 @@ http://localhost:8000/api/hotels/1/energy_summary/?resolution=1day&subsystem=lig
 It must a new project `pyenv` is messed up with `uv`.
 `/Users/sarit/learn_mcp/altotech_smart_building/altotech_smart_building`
 
-# TODO
-- docker compose bring project in one line.
+https://github.com/elcolie/altotech-mcp-demo
 
+# Docker compose. Bring up the Django project. Postgres TimescaleDB
+- `docker compose -f docker-compose.local.yml build`
+- `docker compose -f docker-compose.local.yml build up`.
+- Continue on https://github.com/elcolie/altotech-backend for MCP and Chat Interface.
